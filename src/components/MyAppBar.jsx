@@ -1,73 +1,187 @@
-import { AppBar, Box, Button, IconButton, List, ListItem, ListItemText, Toolbar, Typography } from '@mui/material'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import logo from '../assets/images/OIPLogo.jpeg'
+import React, { useState } from "react";
+import {
+  AppBar,
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/images/OIPLogo.jpeg";
+import ListIcon from "@mui/icons-material/List";
+import HomeIcon from "@mui/icons-material/Home";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import AddIcCallIcon from "@mui/icons-material/AddIcCall";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import Badge from "@mui/material/Badge";
+import { useSelector } from "react-redux";
+
 const MyAppBar = () => {
-    let navigate = useNavigate()
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const handleDrawerOpen = () => {
+    setIsDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
+
+  const navigate = useNavigate();
+  const { cartItemsCount } = useSelector((state) => state.cart);
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static" sx={{backgroundColor:'orange'}}>
-        <Toolbar>
-            <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mr: 2 }}
-            >
-             <Box 
-             component= "img"
-             src={logo}
-             alt="Logo"
-             sx={{width: 40, height: 40, borderRadius: '50%'}}/>
-                {/* <MenuIcon /> */}
-            </IconButton  >
-            
-            <Box sx={{
-                display: "flex",
-                justifyContent: "center",
-                width: "100%"
-            }}>
-                <List sx={{
-                    display: "flex",
-                    cursor: "pointer"
-                }}>
-                    <ListItem onClick={() => navigate("/")}>
-                        <ListItemText>Home</ListItemText>
-                    </ListItem>
-                    <ListItem onClick={() => navigate("/about")}>
-                        <ListItemText>About</ListItemText>
-                    </ListItem>
-                    <ListItem onClick={() => navigate("/contact")}>
-                        <ListItemText>Contact</ListItemText>
-                    </ListItem>
+    <>
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "orange",
+          px: 3,
+          py: 1,
+          boxShadow: 4,
+        }}
+      >
+        <Toolbar disableGutters>
+          {/* Drawer Icon */}
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={handleDrawerOpen}
+            sx={{ mr: 2 }}
+          >
+            <ListIcon />
+          </IconButton>
 
-                    <ListItem onClick = {()=>navigate("/register")}>
-                        <ListItemText>Register</ListItemText>
-                    </ListItem>
-                    <ListItem onClick = {()=>navigate("/login")} sx={{position:'relative', left:'350px', borderRadius:5, backgroundColor:'InfoText',px:'20px'}}>
-                        <ListItemText>Login</ListItemText>
-                    </ListItem>
-                    <ListItem onClick = {()=>navigate("/products")}>
-                        <ListItemText>Products</ListItemText>
-                    </ListItem>
-                    <ListItem onClick = {()=>navigate("/orders")}>
-                        <ListItemText>Orders</ListItemText>
-                    </ListItem>
-                    <ListItem onClick = {()=>navigate("/carts")}>
-                        <ListItemText>Carts</ListItemText>
-                    </ListItem>
-                    <ListItem onClick = {()=>navigate("/profile")}>
-                        <ListItemText>Profile</ListItemText>
-                    </ListItem>
-                </List>
-            </Box>
+          {/* Logo */}
+          <Box
+            component="img"
+            src={logo}
+            alt="Logo"
+            sx={{
+              width: 50,
+              height: 50,
+              borderRadius: "50%",
+              mx: 2,
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/")}
+          />
 
-            {/* <Button color="inherit">Login</Button> */}
+          {/* Navigation Links */}
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <List sx={{ display: "flex" }}>
+              {[
+                { label: "Home", route: "/" },
+                { label: "About", route: "/about" },
+                { label: "Register", route: "/register" },
+                { label: "Products", route: "/products" },
+                { label: "Orders", route: "/orders" },
+                { label: "Profile", route: "/profile" },
+              ].map((item) => (
+                <ListItem
+                  key={item.label}
+                  onClick={() => navigate(item.route)}
+                  sx={{
+                    cursor: "pointer",
+                    mx: 1.5,
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      color: "#fff",
+                      transform: "scale(1.05)",
+                    },
+                  }}
+                >
+                  <Typography variant="button">{item.label}</Typography>
+                </ListItem>
+              ))}
+
+              {/* Cart with badge */}
+              <ListItem
+                onClick={() => navigate("/carts")}
+                sx={{
+                  cursor: "pointer",
+                  mx: 1.5,
+                  display: "flex",
+                  alignItems: "center",
+                  transition: "all 0.3s ease",
+                  "&:hover": { color: "#fff", transform: "scale(1.05)" },
+                }}
+              >
+                <Badge badgeContent={cartItemsCount} color="error">
+                  <ShoppingCartIcon />
+                </Badge>
+              </ListItem>
+            </List>
+          </Box>
+
+          {/* Login Button */}
+          <Button
+            variant="contained"
+            onClick={() => navigate("/login")}
+            sx={{
+              backgroundColor: "white",
+              color: "orange",
+              borderRadius: 20,
+              textTransform: "none",
+              fontWeight: "bold",
+              px: 3,
+              py: 1,
+              fontSize: "16px",
+              "&:hover": { backgroundColor: "#ffe0b2", color: "orange" },
+            }}
+          >
+            Login
+          </Button>
         </Toolbar>
-    </AppBar>
-</Box>
-  )
-}
+      </AppBar>
 
-export default MyAppBar
+      {/* Drawer */}
+      <Drawer
+        open={isDrawerOpen}
+        onClose={handleDrawerClose}
+        PaperProps={{
+          sx: { width: 250, backgroundColor: "#fff", paddingTop: 2 },
+        }}
+      >
+        <List>
+          {/* Drawer Links */}
+          {[
+            { label: "Home", icon: <HomeIcon />, route: "/" },
+            { label: "Products", icon: <InventoryIcon />, route: "/products" },
+            { label: "Contact", icon: <AddIcCallIcon />, route: "/contact" },
+          ].map((item) => (
+            <ListItem
+              button
+              key={item.label}
+              onClick={() => {
+                navigate(item.route);
+                handleDrawerClose();
+              }}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "orange",
+                  color: "white",
+                },
+              }}
+            >
+              <ListItemIcon sx={{ color: "inherit" }}>
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText primary={item.label} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+    </>
+  );
+};
+
+export default MyAppBar;

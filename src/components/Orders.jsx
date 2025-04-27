@@ -55,6 +55,15 @@ const Orders = () => {
 
 useEffect(()=>
 {
+    if (!orderstatus) 
+        {
+            setFilteredData(orders)
+        
+    }
+    else
+    {
+
+    
     let setStatus = ()=>
     {
         let Status = orders.filter((st)=> st.status === orderstatus )
@@ -64,6 +73,7 @@ useEffect(()=>
     setFilteredData(Status)
     }
     setStatus()
+}
 },[orderstatus])
 
     return (

@@ -27,11 +27,11 @@ const Mycards = ({data}) => {
                                             <Typography variant='h5' color={data.price>15 ? "error" : "success" }>{data.price}</Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <Button variant='outlined' color='success' onClick={()=> { dispatcher(addItem(data)) 
-                                                alert("added") }}>Add To Cart</Button>
+                                            <Button variant='outlined' color='success' onClick={()=> {dispatcher(addItem(data)) 
+                                               }}>Add To Cart</Button>
                                             <Button variant='outlined' onClick={() => 
                                                 {
-                                                     navigate('/productDetails',{ state: data })}} color='success'> Details </Button>
+                                                     navigate('/productDetails',{state: data })}} color='success'> Details </Button>
 
                                                        {/* setselectedProduct(prod)
                                                      handleOpenDialog()   */}

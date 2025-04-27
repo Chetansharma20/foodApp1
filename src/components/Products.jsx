@@ -30,13 +30,19 @@ const[filterData, setfilterData] = useState([])
 
     useEffect(()=>
     {
-        
-        let filterProducts = allProducts.filter((prd)=> prd.category == selectedCategory)
-        setfilterData(filterProducts)
-        if (selectedProduct == "All") {
+        if (!selectedProduct) 
+            {
             setfilterData(allProducts)
         }
-        console.log(filterProducts)
+        else
+        {
+
+            let filterProducts = allProducts.filter((prd)=> prd.category == selectedCategory)
+            setfilterData(filterProducts)
+           
+            console.log(filterProducts)
+        }
+       
        
     },[selectedCategory, allProducts])
 

@@ -1,4 +1,5 @@
 import  {createSlice} from "@reduxjs/toolkit"
+// import { data } from "react-router-dom"
 
 
 
@@ -14,10 +15,25 @@ let CartSlice = createSlice({
     initialState,
     reducers: {
       addItem: (state, actions)=>{
+        
+        
         let newItem = {...actions.payload,qty:1}
-        state.cartItems = [...state.cartItems, newItem]
-        state.cartItemsCount = state.cartItems.length
-
+    let AI =   state.cartItems.some((prod)=>prod.id == newItem.id)
+       
+        if (!AI) 
+          {
+          
+            state.cartItems = [...state.cartItems, newItem]
+            state.cartItemsCount = state.cartItems.length
+        }
+        else
+        {
+          alert("product already in cart")
+         
+        }
+      //  console.log(AI)
+      //  console.log(newItem.id)
+      // console.log(cartItems.id)
       },
     
     incrementQty:(state, actions)=>

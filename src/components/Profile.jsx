@@ -5,15 +5,19 @@ import { Box, Button, Typography } from '@mui/material'
 const Profile = () => {
     let dispatcher = useDispatch()
 let {userData} = useSelector((state)=>state.Register)
+   
+let data = []
 
   return (
     <>
+    
     <Box>
              <Box sx={{ display: 'flex', gap: 3 }}>
                  <Typography>Name:{userData.userName}</Typography>
                  <Typography>Password:{userData.userPassword}</Typography>
                  <Typography>Email:{userData.userEmail}</Typography>
                  <Typography>Phone:{userData.userMobile}</Typography>
+                 
                  <Button
                      onClick={() => {
                          dispatcher(LogOut())
@@ -22,7 +26,7 @@ let {userData} = useSelector((state)=>state.Register)
             </Box>
 
         </Box>
-
+        
     </>
   )
 }
